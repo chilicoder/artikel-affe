@@ -902,7 +902,11 @@
         word: rightAnswer.word,
         translation: rightAnswer.translation
       });
-      this.setNextIndex();
+      this.setNextIndex(); // some defense if atricle is not der,die,das
+
+      while (this.articles.indexOf(this.model[this.currentIndex].article) === -1) {
+        this.setNextIndex();
+      }
     }
   });
 
@@ -1418,7 +1422,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("artikel-affe/app")["default"].create({"name":"artikel-affe","version":"0.0.0+6f682dbd"});
+            require("artikel-affe/app")["default"].create({"name":"artikel-affe","version":"0.0.0+a1be96dc"});
           }
         
 //# sourceMappingURL=artikel-affe.map

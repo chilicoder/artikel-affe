@@ -68,5 +68,9 @@ export default Controller.extend({
         })
 
         this.setNextIndex();
+        // some defense if atricle is not der,die,das
+        while (this.articles.indexOf(this.model[this.currentIndex].article)===-1) {
+            this.setNextIndex();
+        }
     }
 });
