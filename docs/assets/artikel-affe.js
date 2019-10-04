@@ -1318,8 +1318,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "uHjCPxqd",
-    "block": "{\"symbols\":[\"a\",\"a\"],\"statements\":[[0,\"\\n\"],[7,\"h1\",true],[8],[0,\"Pick the right article\"],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"mx-auto w-50\"],[10,\"style\",\"text-align: center;\"],[8],[0,\"\\n    \"],[1,[22,\"currentWord\"],false],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"articles\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"col\"],[8],[0,\"\\n    \"],[7,\"button\",false],[12,\"class\",\"btn btn-primary w-100\"],[3,\"action\",[[23,0,[]],[24,[\"checkArticle\"]],[23,2,[]]]],[8],[1,[23,2,[]],false],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[9],[0,\"\\n\"],[4,\"each\",[[24,[\"lastAnswers\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n    \"],[7,\"div\",true],[11,\"class\",[29,[\"alert alert-\",[28,\"if\",[[23,1,[\"result\"]],\"success\",\"danger\"],null]]]],[10,\"role\",\"alert\"],[8],[0,\"\\n    \"],[1,[23,1,[\"article\"]],false],[0,\" \"],[1,[23,1,[\"word\"]],false],[0,\" \\n    \"],[9],[0,\"    \\n    \"],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"],[1,[22,\"outlet\"],false]],\"hasEval\":false}",
+    "id": "FlxSEwMT",
+    "block": "{\"symbols\":[\"a\",\"a\"],\"statements\":[[0,\"\\n\"],[7,\"h4\",true],[8],[0,\"Pick the right article\"],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"mx-auto w-50\"],[10,\"style\",\"text-align: center;\"],[8],[0,\"\\n    \"],[7,\"h1\",true],[8],[1,[22,\"currentWord\"],false],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"row mb-3\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"articles\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"col\"],[8],[0,\"\\n    \"],[7,\"button\",false],[12,\"class\",\"btn btn-primary w-100\"],[3,\"action\",[[23,0,[]],[24,[\"checkArticle\"]],[23,2,[]]]],[8],[1,[23,2,[]],false],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[9],[0,\"\\n\"],[4,\"each\",[[24,[\"lastAnswers\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"col\"],[8],[0,\"\\n            \"],[7,\"div\",true],[11,\"class\",[29,[\"alert alert-\",[28,\"if\",[[23,1,[\"result\"]],\"success\",\"danger\"],null]]]],[10,\"role\",\"alert\"],[8],[0,\"\\n            \"],[1,[23,1,[\"article\"]],false],[0,\" \"],[1,[23,1,[\"word\"]],false],[0,\" \\n            \"],[9],[0,\"    \\n        \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"],[1,[22,\"outlet\"],false]],\"hasEval\":false}",
     "meta": {
       "moduleName": "artikel-affe/templates/der-die-das.hbs"
     }
@@ -1368,7 +1368,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("artikel-affe/app")["default"].create({"name":"artikel-affe","version":"0.0.0+0ca89037"});
+            require("artikel-affe/app")["default"].create({"name":"artikel-affe","version":"0.0.0+d9d8157a"});
           }
         
 //# sourceMappingURL=artikel-affe.map

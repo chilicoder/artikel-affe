@@ -1,11 +1,11 @@
 
-<h1>Pick the right article</h1>
+<h4>Pick the right article</h4>
 <div class="row">
 <div class="mx-auto w-50" style="text-align: center;">
-    {{currentWord}}
+    <h1>{{currentWord}}</h1>
 </div>
 </div>
-<div class="row">
+<div class="row mb-3">
     {{#each articles as |a|}}
     <div class="col">
     <button {{action checkArticle a}} class="btn btn-primary w-100">{{a}}</button>
@@ -14,9 +14,11 @@
 </div>
     {{#each lastAnswers as |a|}}
     <div class="row">
-    <div class="alert alert-{{if a.result "success" "danger"}}" role="alert">
-    {{a.article}} {{a.word}} 
-    </div>    
+        <div class="col">
+            <div class="alert alert-{{if a.result "success" "danger"}}" role="alert">
+            {{a.article}} {{a.word}} 
+            </div>    
+        </div>
     </div>
     {{/each}}
 
