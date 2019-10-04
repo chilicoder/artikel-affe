@@ -1368,7 +1368,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("artikel-affe/app")["default"].create({"name":"artikel-affe","version":"0.0.0+202d41ba"});
+            require("artikel-affe/app")["default"].create({"name":"artikel-affe","version":"0.0.0+0ca89037"});
           }
         
 //# sourceMappingURL=artikel-affe.map
