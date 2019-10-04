@@ -1,7 +1,27 @@
 
-<h4>Pick the right article</h4>
+<div class="bg-light">
 <div class="row">
-<div class="mx-auto w-50" style="text-align: center;">
+    <div class="col w-100 text-center"><h5 class="mx-auto">Statistics</h5></div>
+</div>
+<div class="row">
+    {{#if lastAnswers}}
+        <div class="col">
+        <h4 class="px-3">Last ten: {{statistics.streak.right}}/{{statistics.streak.total}}</h4>
+        <h5 class="px-3">Longest streak: {{statistics.streak.longestStreak}}</h5>
+    </div>
+    <div class="col">
+        <div class="px-3">
+            <div>Total: {{statistics.percents.total}}</div>
+            <div class="text-danger">Der: {{statistics.percents.der}}</div>
+            <div class="text-success">Die: {{statistics.percents.die}}</div>
+            <div class="text-primary">Das: {{statistics.percents.das}}</div>
+        </div>
+    </div>
+    {{/if}}
+</div>
+</div>
+<div class="row">
+<div class="col mx-auto w-100 text-center">
     <h1>{{currentWord}}</h1>
 </div>
 </div>
@@ -12,11 +32,12 @@
     </div>
     {{/each}}
 </div>
+<div class="text-center">Pick the right article</div>
     {{#each lastAnswers as |a|}}
     <div class="row">
         <div class="col">
             <div class="alert alert-{{if a.result "success" "danger"}}" role="alert">
-            {{a.article}} {{a.word}} 
+            {{a.article}} {{a.word}}  <span style="font-size: x-small;font-weight: bold;opacity: 0.5;">({{a.translation}})</span>
             </div>    
         </div>
     </div>

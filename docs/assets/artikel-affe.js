@@ -841,18 +841,65 @@
     articles: Ember.computed(function () {
       return ['Der', 'Die', 'Das'];
     }),
-    lastAnswers: [],
+    lastAnswers: Ember.computed(function () {
+      return [];
+    }),
     currentIndex: 0,
     currentWord: Ember.computed('currentIndex', function () {
       return this.model[this.currentIndex].word;
     }),
-    checkArticle: function (a, b) {
+    statistics: Ember.computed('lastAnswers.[]', function () {
+      const lastAnswers = this.lastAnswers;
+      if (lastAnswers.length === 0) return {};
+      let rollingStreak = 0;
+      let longestStreak = 0;
+
+      for (let i = 0; i < lastAnswers.length; i++) {
+        rollingStreak = lastAnswers[i].result ? rollingStreak + 1 : 0;
+        longestStreak = Math.max(rollingStreak, longestStreak);
+      }
+
+      const last10 = lastAnswers.slice(0, 10);
+      const last10right = last10.filter(i => i.result);
+      const last100 = lastAnswers.slice(0, 100);
+      const last100right = last100.filter(i => i.result);
+      const last100der = last100.filter(i => i.article === 'Der');
+      const last100die = last100.filter(i => i.article === 'Die');
+      const last100das = last100.filter(i => i.article === 'Das');
+      const last100derRight = last100der.filter(i => i.result);
+      const last100dieRight = last100die.filter(i => i.result);
+      const last100dasRight = last100das.filter(i => i.result);
+      let statistics = {
+        streak: {
+          right: last10right.length,
+          total: last10.length,
+          longestStreak: longestStreak
+        },
+        percents: {
+          total: new Intl.NumberFormat('en-EN', {
+            style: 'percent'
+          }).format(last100right.length / Math.max(last100.length, 1)),
+          der: new Intl.NumberFormat('en-EN', {
+            style: 'percent'
+          }).format(last100derRight.length / Math.max(last100der.length, 1)),
+          die: new Intl.NumberFormat('en-EN', {
+            style: 'percent'
+          }).format(last100dieRight.length / Math.max(last100die.length, 1)),
+          das: new Intl.NumberFormat('en-EN', {
+            style: 'percent'
+          }).format(last100dasRight.length / Math.max(last100das.length, 1))
+        }
+      };
+      return statistics;
+    }),
+    checkArticle: function (a) {
       const rightAnswer = this.model[this.currentIndex];
       this.lastAnswers.unshiftObject({
         result: rightAnswer.article === a,
         answer: a,
         article: rightAnswer.article,
-        word: rightAnswer.word
+        word: rightAnswer.word,
+        translation: rightAnswer.translation
       });
       this.setNextIndex();
     }
@@ -1229,10 +1276,12 @@
     model() {
       return data.split('\n').map(str => {
         const right = str.split(' ~')[0];
+        const translation = right.split(' ')[1];
         const [article, word] = right.split('– ')[1].split(' ');
         return {
           article,
-          word
+          word,
+          translation
         };
       });
     },
@@ -1318,8 +1367,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "FlxSEwMT",
-    "block": "{\"symbols\":[\"a\",\"a\"],\"statements\":[[0,\"\\n\"],[7,\"h4\",true],[8],[0,\"Pick the right article\"],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"mx-auto w-50\"],[10,\"style\",\"text-align: center;\"],[8],[0,\"\\n    \"],[7,\"h1\",true],[8],[1,[22,\"currentWord\"],false],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"row mb-3\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"articles\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"col\"],[8],[0,\"\\n    \"],[7,\"button\",false],[12,\"class\",\"btn btn-primary w-100\"],[3,\"action\",[[23,0,[]],[24,[\"checkArticle\"]],[23,2,[]]]],[8],[1,[23,2,[]],false],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[9],[0,\"\\n\"],[4,\"each\",[[24,[\"lastAnswers\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"col\"],[8],[0,\"\\n            \"],[7,\"div\",true],[11,\"class\",[29,[\"alert alert-\",[28,\"if\",[[23,1,[\"result\"]],\"success\",\"danger\"],null]]]],[10,\"role\",\"alert\"],[8],[0,\"\\n            \"],[1,[23,1,[\"article\"]],false],[0,\" \"],[1,[23,1,[\"word\"]],false],[0,\" \\n            \"],[9],[0,\"    \\n        \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"],[1,[22,\"outlet\"],false]],\"hasEval\":false}",
+    "id": "/wc2OUrP",
+    "block": "{\"symbols\":[\"a\",\"a\"],\"statements\":[[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"bg-light\"],[8],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n    \"],[7,\"div\",true],[10,\"class\",\"col w-100 text-center\"],[8],[7,\"h5\",true],[10,\"class\",\"mx-auto\"],[8],[0,\"Statistics\"],[9],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n\"],[4,\"if\",[[24,[\"lastAnswers\"]]],null,{\"statements\":[[0,\"        \"],[7,\"div\",true],[10,\"class\",\"col\"],[8],[0,\"\\n        \"],[7,\"h4\",true],[10,\"class\",\"px-3\"],[8],[0,\"Last ten: \"],[1,[24,[\"statistics\",\"streak\",\"right\"]],false],[0,\"/\"],[1,[24,[\"statistics\",\"streak\",\"total\"]],false],[9],[0,\"\\n        \"],[7,\"h5\",true],[10,\"class\",\"px-3\"],[8],[0,\"Longest streak: \"],[1,[24,[\"statistics\",\"streak\",\"longestStreak\"]],false],[9],[0,\"\\n    \"],[9],[0,\"\\n    \"],[7,\"div\",true],[10,\"class\",\"col\"],[8],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"px-3\"],[8],[0,\"\\n            \"],[7,\"div\",true],[8],[0,\"Total: \"],[1,[24,[\"statistics\",\"percents\",\"total\"]],false],[9],[0,\"\\n            \"],[7,\"div\",true],[10,\"class\",\"text-danger\"],[8],[0,\"Der: \"],[1,[24,[\"statistics\",\"percents\",\"der\"]],false],[9],[0,\"\\n            \"],[7,\"div\",true],[10,\"class\",\"text-success\"],[8],[0,\"Die: \"],[1,[24,[\"statistics\",\"percents\",\"die\"]],false],[9],[0,\"\\n            \"],[7,\"div\",true],[10,\"class\",\"text-primary\"],[8],[0,\"Das: \"],[1,[24,[\"statistics\",\"percents\",\"das\"]],false],[9],[0,\"\\n        \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"col mx-auto w-100 text-center\"],[8],[0,\"\\n    \"],[7,\"h1\",true],[8],[1,[22,\"currentWord\"],false],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"row mb-3\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"articles\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"col\"],[8],[0,\"\\n    \"],[7,\"button\",false],[12,\"class\",\"btn btn-primary w-100\"],[3,\"action\",[[23,0,[]],[24,[\"checkArticle\"]],[23,2,[]]]],[8],[1,[23,2,[]],false],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"text-center\"],[8],[0,\"Pick the right article\"],[9],[0,\"\\n\"],[4,\"each\",[[24,[\"lastAnswers\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"col\"],[8],[0,\"\\n            \"],[7,\"div\",true],[11,\"class\",[29,[\"alert alert-\",[28,\"if\",[[23,1,[\"result\"]],\"success\",\"danger\"],null]]]],[10,\"role\",\"alert\"],[8],[0,\"\\n            \"],[1,[23,1,[\"article\"]],false],[0,\" \"],[1,[23,1,[\"word\"]],false],[0,\"  \"],[7,\"span\",true],[10,\"style\",\"font-size: x-small;font-weight: bold;opacity: 0.5;\"],[8],[0,\"(\"],[1,[23,1,[\"translation\"]],false],[0,\")\"],[9],[0,\"\\n            \"],[9],[0,\"    \\n        \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"],[1,[22,\"outlet\"],false]],\"hasEval\":false}",
     "meta": {
       "moduleName": "artikel-affe/templates/der-die-das.hbs"
     }
@@ -1368,7 +1417,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("artikel-affe/app")["default"].create({"name":"artikel-affe","version":"0.0.0+d9d8157a"});
+            require("artikel-affe/app")["default"].create({"name":"artikel-affe","version":"0.0.0+49517166"});
           }
         
 //# sourceMappingURL=artikel-affe.map

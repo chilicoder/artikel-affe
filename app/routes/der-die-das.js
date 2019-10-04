@@ -2990,8 +2990,9 @@ export default Route.extend({
     model(){
         return data.split('\n').map(str=>{
             const right = str.split(' ~')[0];
+            const translation = right.split(' ')[1];
             const [article,word] = right.split('– ')[1].split(' ');
-            return {article,word};
+            return {article,word,translation};
         })
     },
     setupController(controller, model) {
