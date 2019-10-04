@@ -40,6 +40,7 @@ export default Controller.extend({
         const last100dasRight = last100das.filter(i=>i.result);
         let statistics = {
             streak: {
+                all: lastAnswers.length,
                 right: last10right.length,
                 total: last10.length,
                 longestStreak: longestStreak

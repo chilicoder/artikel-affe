@@ -6,6 +6,7 @@
 <div class="row">
     {{#if lastAnswers}}
         <div class="col">
+        <div class="px-3">Total: <strong>{{statistics.streak.all}}</strong></div>
         <div class="px-3">Last ten: <strong>{{statistics.streak.right}}/{{statistics.streak.total}}</strong></div>
         <div class="px-3">Longest streak: <strong>{{statistics.streak.longestStreak}}</strong></div>
     </div>
