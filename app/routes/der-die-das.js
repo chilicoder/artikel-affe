@@ -2047,7 +2047,6 @@ let data = `1. Time – Die Zeit ~ Die Zeiten
 2044. Wash – Die Wasch ~ Die Wasch
 2045. Release – Die Befreiung ~ Die Freigaben
 2046. Spy – Der Spion ~ Die Spione
-2047. Tag – Die Tag ~ Die Tags
 2048. Bra – Der Bh ~ Die Bhs
 2049. Debt – Die Schuld ~ Die Schulden
 2050. Terrace – Die Terrasse ~ Die Terrassen
@@ -2988,12 +2987,14 @@ let data = `1. Time – Die Zeit ~ Die Zeiten
 
 export default Route.extend({
     model(){
-        return data.split('\n').map(str=>{
+        return data.split('\n')
+        .map(str=>{
             const right = str.split(' ~')[0];
             const translation = right.split(' ')[1];
             const [article,word] = right.split('– ')[1].split(' ');
             return {article,word,translation};
         })
+        .filter(item=>item.article==='Der'||item.article==='Die'||item.article==='Das')
     },
     setupController(controller, model) {
         this._super(...arguments);

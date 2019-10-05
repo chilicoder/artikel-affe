@@ -3,9 +3,46 @@ import { computed } from '@ember/object';
 
 export default Controller.extend({
     setNextIndex(){
-        const newIndex = Math.floor(Math.random() * this.model.length);
+        // if the answer is wrong then repeat the word in 10 words. (random 8-12)
+        // after that if its right than repeat again in 15 words, 20 and 25. 
+        // it have to be 4 more right answer before stop add the word in the stash of fails
+        const last = this.lastAnswers[0];
+        const count = this.lastAnswers.length;
+        const stashOfFails = this.stashOfFails;
+        let offset = 0;
+        if (last.result) {
+            if (stashOfFails[count]) {
+                if (stashOfFails[count].rightAnswers<=4) {
+                    offset = stashOfFails[count].rightAnswers * 5 + 8 + Math.floor(Math.random()*5);
+                    // if step is occupied then rewind to free space
+                    while (stashOfFails[count+offset]) {
+                        offset++;
+                    }
+                    stashOfFails[count+offset] = {
+                        rightAnswers: stashOfFails[count].rightAnswers + 1,
+                        index: this.currentIndex
+                    };
+                }
+            }
+        } else {
+            offset = 8 + Math.floor(Math.random()*5);
+            while (stashOfFails[count+offset]) {
+                offset++;
+            }
+            stashOfFails[count+offset] = {
+                rightAnswers: 0,
+                index: this.currentIndex
+            };
+        }
+
+        // delete current step
+        delete stashOfFails[count];
+
+        // setting index for next word 
+        const newIndex = stashOfFails[count+1] ? stashOfFails[count+1].index : Math.floor(Math.random() * this.model.length);
         this.set('currentIndex',newIndex);
     },
+    stashOfFails: computed(function(){return {};}),
     articles: computed(function() {
         return ['Der','Die','Das'];
     }),
@@ -58,9 +95,10 @@ export default Controller.extend({
     }),
     checkArticle: function(a){
         const rightAnswer = this.model[this.currentIndex];
+        const result = rightAnswer.article === a;
 
         this.lastAnswers.unshiftObject({
-            result: rightAnswer.article === a,
+            result,
             answer: a,
             article: rightAnswer.article,
             word: rightAnswer.word,
@@ -68,9 +106,5 @@ export default Controller.extend({
         })
 
         this.setNextIndex();
-        // some defense if atricle is not der,die,das
-        while (this.articles.indexOf(this.model[this.currentIndex].article)===-1) {
-            this.setNextIndex();
-        }
     }
 });
